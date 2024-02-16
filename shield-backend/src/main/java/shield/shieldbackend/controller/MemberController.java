@@ -19,6 +19,7 @@ public class MemberController {
     /**
      * 회원가입
      */
+    @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/api/join")
     public ResponseEntity<MemberJoinDto> join(@RequestBody MemberJoinDto dto) throws Exception {
         MemberJoinDto res = memberService.join(dto);
