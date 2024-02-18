@@ -43,7 +43,7 @@ public class MemberService {
     public Long login(MemberLoginDto dto) {
         Member member = memberRepository.findByUserId(dto.getUserId());
         if (member != null && member.getPassword().equals(dto.getPassword())) {
-            return member.getDBId();
+            return member.getMemberId();
         }
         return null;
     }
@@ -52,19 +52,19 @@ public class MemberService {
     public MyPageDto findUserInfo(HttpServletRequest request) {
         // 세션에서 사용자 아이디 가져오기
         HttpSession session = request.getSession();
-        System.out.println("DBID from Session: " + session);
+        System.out.println("MemberId from Session: " + session);
 
-        Long DBId = (Long) session.getAttribute("DBId");
+        Long MemberId = (Long) session.getAttribute("MemberId");
 
         // 아이디로 회원 정보 조회
-        if (DBId == null) {
+        if (MemberId == null) {
             return null;    // 세션에 사용자 아이디가 없는 경우 null 반환
         }
 
-        Member member = memberRepository.findByDBId(DBId);
+        Member member = memberRepository.findByMemberId(MemberId);
 
         if (member == null) {
-            System.out.println("User not found with user DBID: " + DBId);
+            System.out.println("User not found with user MemberId: " + MemberId);
             return null;
         }
 
