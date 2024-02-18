@@ -59,7 +59,11 @@ public class MemberController {
         Long res = memberService.login(dto);
 
         // 로그인 성공 시 세션에 아이디 저장
-        httpSession.setAttribute("userId", res);
+        httpSession.setAttribute("DBId", res);
+
+        // 디버깅용 세션 확인 코드
+        System.out.println("DBID: " + httpSession.getAttribute("DBId"));
+        System.out.println("res: " + res);
 
         return ResponseEntity.ok(res);
     }

@@ -40,10 +40,10 @@ public class MemberService {
         return false;
     }
 
-    public  Long login(MemberLoginDto dto) {
+    public Long login(MemberLoginDto dto) {
         Member member = memberRepository.findByUserId(dto.getUserId());
         if (member != null && member.getPassword().equals(dto.getPassword())) {
-            return member.getId();
+            return member.getDBId();
         }
         return null;
     }
@@ -52,17 +52,19 @@ public class MemberService {
     public MyPageDto findUserInfo(HttpServletRequest request) {
         // 세션에서 사용자 아이디 가져오기
         HttpSession session = request.getSession();
-        String userId = (String) session.getAttribute("userId");
+        System.out.println("DBID from Session: " + session);
+
+        Long DBId = (Long) session.getAttribute("DBId");
 
         // 아이디로 회원 정보 조회
-        if (userId == null) {
+        if (DBId == null) {
             return null;    // 세션에 사용자 아이디가 없는 경우 null 반환
         }
 
-        Member member = memberRepository.findByUserId(userId);
+        Member member = memberRepository.findByDBId(DBId);
 
         if (member == null) {
-            System.out.println("User not found with user ID: " + userId);
+            System.out.println("User not found with user DBID: " + DBId);
             return null;
         }
 
@@ -72,10 +74,5 @@ public class MemberService {
     public List<Member> findMembers() {
         return memberRepository.findAll();
     }
-
-    public Optional<Member> findOne(Long memberId) {
-        return memberRepository.findById(memberId);
-    }
-
 
 }

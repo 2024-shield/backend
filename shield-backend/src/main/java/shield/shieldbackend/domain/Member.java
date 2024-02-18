@@ -17,7 +17,7 @@ import shield.shieldbackend.dto.MemberJoinDto;
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long DBId;
 
     private String name;
     private String userId;
