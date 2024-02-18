@@ -54,7 +54,7 @@ public class MemberController {
      * MemberLoginDto로 받은 userId와 password를 가지고 해당 아이디, 비밀번호가 있는지 확인 후
      * 없으면 null,  있으면 해당 member의 id 반환.
      */
-    @PostMapping("/api/login")
+    @PostMapping("/api")
     public ResponseEntity<Long> login(@RequestBody MemberLoginDto dto) {
         Long res = memberService.login(dto);
 
