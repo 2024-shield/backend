@@ -1,11 +1,13 @@
 package shield.shieldbackend.service;
 
-import jakarta.persistence.EntityExistsException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import shield.shieldbackend.domain.Member;
 import shield.shieldbackend.dto.MemberJoinDto;
 import shield.shieldbackend.dto.MemberLoginDto;
+import shield.shieldbackend.dto.MyPageDto;
 import shield.shieldbackend.repository.MemberRepository;
 
 import java.util.List;
@@ -46,8 +48,26 @@ public class MemberService {
         return null;
     }
 
+    // 마이페이지 유저 정보 불러오기
+    public MyPageDto findUserInfo(HttpServletRequest request) {
+        // 세션에서 사용자 아이디 가져오기
+        HttpSession session = request.getSession();
+        String userId = (String) session.getAttribute("userId");
 
+        // 아이디로 회원 정보 조회
+        if (userId == null) {
+            return null;    // 세션에 사용자 아이디가 없는 경우 null 반환
+        }
 
+        Member member = memberRepository.findByUserId(userId);
+
+        if (member == null) {
+            System.out.println("User not found with user ID: " + userId);
+            return null;
+        }
+
+        return new MyPageDto(member);
+    }
 
     public List<Member> findMembers() {
         return memberRepository.findAll();
