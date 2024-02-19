@@ -27,6 +27,10 @@ public class Report extends ReportBase{
 
     // 발생 개요
     @Column
+    private String reportFireDate; // 리포트 테이블에 저장될(축적될) 화재 발생 날짜
+    @Column
+    private String reportFirePlace; // 리포트 테이블에 저장될(축적될) 화재 발생 장소
+    @Column
     private String cause; // 원인
 
     // 피해 상황

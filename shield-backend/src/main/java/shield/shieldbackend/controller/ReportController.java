@@ -18,25 +18,23 @@ public class ReportController {
     private final ReportService reportService;
 
     // 보고서 작성 페이지에서 보여주는 것들
-    @GetMapping("api/reports/create/{fireId}/{memberId}")
-    public ReportFixedDto getFixedData(@PathVariable Long fireId, @PathVariable Long memberId) {
-        return reportService.getFixedData(fireId, memberId);
+    @GetMapping("api/reports/create")
+    public ReportFixedDto getFixedData(HttpSession session) {
+        Long MemberId = (Long) session.getAttribute("MemberId");
+        return reportService.getFixedData(MemberId);
     }
 
     // 보고서 작성
-    @PostMapping("api/reports/create/{fireId}")
-    public ResponseEntity<String> createReport(@RequestBody ReportDto reportDto,
-                                               @PathVariable Long fireId, HttpSession session) {
+    @PostMapping("api/reports/create")
+    public ResponseEntity<String> createReport(@RequestBody ReportDto reportDto, HttpSession session) {
         try {
-            Long memberId = (Long) session.getAttribute("memberId");
-            if (memberId == null) {
+            Long MemberId = (Long) session.getAttribute("MemberId");
+            if (MemberId == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Member not logged in.");
             }
+            reportDto.setMemberId(MemberId);
 
-            reportDto.setMemberId(memberId);
-            reportDto.setFireId(fireId);
-
-            reportService.createReport(reportDto, fireId, memberId);
+            reportService.createReport(reportDto, MemberId);
             return ResponseEntity.status(HttpStatus.CREATED).body("Report created successfully!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to create report.");

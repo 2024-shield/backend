@@ -23,18 +23,17 @@ public class ReportService {
     private final FireRepository fireRepository;
     private final MemberRepository memberRepository;
 
-    public ReportFixedDto getFixedData(Long fireId, Long memberId) {
-        Fire fire = fireRepository.findById(fireId)
-                .orElseThrow(()-> new EntityNotFoundException("Fire not found"));
+    public ReportFixedDto getFixedData(Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()-> new EntityNotFoundException("Member not found"));
-        return new ReportFixedDto(fire.getFireDate(), fire.getFireTime(), fire.getFirePlace(),
-                member.getName(), member.getDepartment());
+        return new ReportFixedDto(member.getName(), member.getDepartment());
     }
 
     @Transactional
-    public void createReport(ReportDto reportDto, Long fireId, Long memberId) {
+    public ReportFixedDto createReport(ReportDto reportDto, Long memberId) {
         Report report = new Report();
+        report.setReportFireDate(reportDto.getReportFireDate());
+        report.setReportFirePlace(reportDto.getReportFirePlace());
         report.setCause(reportDto.getCause());
         report.setDeathNum(reportDto.getDeathNum());
         report.setInjuryNum(reportDto.getInjuryNum());
@@ -45,15 +44,14 @@ public class ReportService {
         report.setEquipNum(reportDto.getEquipNum());
         report.setAction(reportDto.getAction());
 
-        Fire fire = fireRepository.findById(fireId)
-                .orElseThrow(()-> new EntityNotFoundException("Fire not found"));
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(()-> new EntityNotFoundException("Member not found"));
 
-        report.setFire(fire);
         report.setMember(member);
 
         reportRepository.save(report);
+
+        return new ReportFixedDto(member.getName(), member.getDepartment());
     }
 
     public List<Report> getAllReports() {
@@ -68,6 +66,8 @@ public class ReportService {
 
         // 수정된 보고서의 데이터로 엔티티 업데이트
         report.setCause(updateReportDto.getCause());
+        report.setReportFireDate(updateReportDto.getReportFireDate());
+        report.setReportFirePlace(updateReportDto.getReportFirePlace());
         report.setDeathNum(updateReportDto.getDeathNum());
         report.setInjuryNum(updateReportDto.getInjuryNum());
         report.setTheDead(updateReportDto.getTheDead());
