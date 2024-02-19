@@ -32,7 +32,9 @@ public class ReportService {
     @Transactional
     public ReportFixedDto createReport(ReportDto reportDto, Long memberId) {
         Report report = new Report();
+
         report.setReportFireDate(reportDto.getReportFireDate());
+        report.setReportFireTime(reportDto.getReportFireTime());
         report.setReportFirePlace(reportDto.getReportFirePlace());
         report.setCause(reportDto.getCause());
         report.setDeathNum(reportDto.getDeathNum());
@@ -66,7 +68,9 @@ public class ReportService {
 
         // 수정된 보고서의 데이터로 엔티티 업데이트
         report.setCause(updateReportDto.getCause());
+
         report.setReportFireDate(updateReportDto.getReportFireDate());
+        report.setReportFireTime(updateReportDto.getReportFireTime());
         report.setReportFirePlace(updateReportDto.getReportFirePlace());
         report.setDeathNum(updateReportDto.getDeathNum());
         report.setInjuryNum(updateReportDto.getInjuryNum());

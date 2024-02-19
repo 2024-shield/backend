@@ -25,7 +25,7 @@ public class MemberService {
      */
     public MemberJoinDto join(MemberJoinDto dto, HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
-
+        System.out.println(session.getAttribute("idDuplicate"));
         // 아이디 중복 확인 여부 검증
         // else if 에서 false(아이디 중복)의 경우 예외 발생
         if (session.getAttribute("idDuplicate") == null) {
