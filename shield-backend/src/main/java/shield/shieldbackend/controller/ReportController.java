@@ -1,5 +1,6 @@
 package shield.shieldbackend.controller;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +24,15 @@ public class ReportController {
     }
 
     // 보고서 작성
-    @PostMapping("api/reports/create/{fireId}/{memberId}")
+    @PostMapping("api/reports/create/{fireId}")
     public ResponseEntity<String> createReport(@RequestBody ReportDto reportDto,
-                                               @PathVariable Long fireId, @PathVariable Long memberId) {
+                                               @PathVariable Long fireId, HttpSession session) {
         try {
+            Long memberId = (Long) session.getAttribute("memberId");
+            if (memberId == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Member not logged in.");
+            }
+
             reportDto.setMemberId(memberId);
             reportDto.setFireId(fireId);
 
