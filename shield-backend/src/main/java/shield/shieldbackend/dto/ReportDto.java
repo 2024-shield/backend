@@ -6,7 +6,9 @@ import lombok.Setter;
 import lombok.ToString;
 import shield.shieldbackend.entity.Report;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -18,8 +20,9 @@ public class ReportDto {
 
     // report_table
     // 발생 개요
-    private String reportFireDate; // 화재 발생 시각
-    private String reportFirePlace; // 화재 발생 장소
+    private String reportFireDate; // 화재 발생 날짜
+    private String reportFireTime; // 화재 발생 시각
+    private String reportFirePlace;
     private String cause; // 원인
 
     // 피해 상황
