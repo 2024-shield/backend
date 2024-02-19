@@ -8,18 +8,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class ReportFixedDto {
-    private String fireDate; // 화재 발생 날짜
-    private String fireTime; // 화재 발생 시각
-    private String firePlace; // 화재 발생 장소
-
     private String name; // 작성자 이름
     private String department; // 관할 소방서
 
-    public ReportFixedDto(String fireDate, String fireTime, String firePlace,
-                          String name, String department) {
-        this.fireDate = fireDate;
-        this.fireTime = fireTime;
-        this.firePlace = firePlace;
+    public ReportFixedDto(String name, String department) {
         this.name = name;
         this.department = department;
     }
