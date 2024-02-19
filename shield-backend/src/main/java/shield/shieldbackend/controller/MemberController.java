@@ -58,6 +58,9 @@ public class MemberController {
     public ResponseEntity<Long> login(@RequestBody MemberLoginDto dto) {
         Long res = memberService.login(dto);
 
+        // 이전 세션 제거
+        httpSession.invalidate();
+
         // 로그인 성공 시 세션에 아이디 저장
         httpSession.setAttribute("MemberId", res);
 

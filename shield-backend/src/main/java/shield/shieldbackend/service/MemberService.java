@@ -3,6 +3,7 @@ package shield.shieldbackend.service;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import shield.shieldbackend.domain.Member;
 import shield.shieldbackend.dto.MemberJoinDto;
@@ -12,7 +13,6 @@ import shield.shieldbackend.repository.MemberRepository;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +24,10 @@ public class MemberService {
      * 회원가입
      */
     public MemberJoinDto join(MemberJoinDto dto) throws Exception {
-        if(!Objects.equals(dto.getPassword(), dto.getPasswordCheck())){
+        if (memberRepository.existsByUserId(dto.getUserId())) {
+            throw new Exception("This ID already exists");
+        }
+        else if(!Objects.equals(dto.getPassword(), dto.getPasswordCheck())){
             throw new Exception("Not Equal Password");
         }
         return MemberJoinDto.from(memberRepository.save(Member.from(dto)));
