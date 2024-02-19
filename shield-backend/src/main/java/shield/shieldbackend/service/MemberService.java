@@ -23,31 +23,41 @@ public class MemberService {
     /**
      * 회원가입
      */
-    public MemberJoinDto join(MemberJoinDto dto) throws Exception {
-        if (memberRepository.existsByUserId(dto.getUserId())) {
-            throw new Exception("This ID already exists");
-        }
-        else if(!Objects.equals(dto.getPassword(), dto.getPasswordCheck())){
+    public MemberJoinDto join(MemberJoinDto dto, HttpServletRequest request) throws Exception {
+        HttpSession session = request.getSession();
+
+        // else if 에서 false(아이디 중복)의 경우 예외 발생
+        if(!Objects.equals(dto.getPassword(), dto.getPasswordCheck())){
             throw new Exception("Not Equal Password");
+        } else if ((boolean) session.getAttribute("idDuplicate") == false) {
+            throw new Exception("Duplicated ID");
         }
+
         return MemberJoinDto.from(memberRepository.save(Member.from(dto)));
     }
 
     /**
      * 아이디 중복 검사
+     * 아이디가 존재하는 경우(아이디 중복) false, 존재하지 않는 경우 true를 반환
      */
-    public Boolean checkId(String userId) {
-        if(memberRepository.findByUserId(userId)==null){
-            return true;
+    public Boolean checkId(MemberJoinDto dto) {
+        if (memberRepository.existsByUserId(dto.getUserId())) {
+            System.out.println("아이디 중복 확인 - checkId");
+            return false;
         }
-        return false;
+
+        return true;
     }
 
-    public Long login(MemberLoginDto dto) {
+    public Long login(MemberLoginDto dto, HttpServletRequest request) {
         Member member = memberRepository.findByUserId(dto.getUserId());
+        // 세션에서 사용자 아이디 가져오기
+        HttpSession session = request.getSession();
+
         if (member != null && member.getPassword().equals(dto.getPassword())) {
             return member.getMemberId();
         }
+
         return null;
     }
 
