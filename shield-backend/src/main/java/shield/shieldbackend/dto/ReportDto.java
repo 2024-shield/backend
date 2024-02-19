@@ -18,6 +18,8 @@ public class ReportDto {
 
     // report_table
     // 발생 개요
+    private String reportFireDate; // 화재 발생 시각
+    private String reportFirePlace; // 화재 발생 장소
     private String cause; // 원인
 
     // 피해 상황
