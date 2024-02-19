@@ -26,10 +26,13 @@ public class MemberService {
     public MemberJoinDto join(MemberJoinDto dto, HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
 
+        // 아이디 중복 확인 여부 검증
         // else if 에서 false(아이디 중복)의 경우 예외 발생
-        if(!Objects.equals(dto.getPassword(), dto.getPasswordCheck())){
+        if (session.getAttribute("idDuplicate") == null) {
+            throw new Exception("ID duplication verification is required");
+        } else if (!Objects.equals(dto.getPassword(), dto.getPasswordCheck())) {
             throw new Exception("Not Equal Password");
-        } else if ((boolean) session.getAttribute("idDuplicate") == false) {
+        } else if (!((boolean) session.getAttribute("idDuplicate"))) {
             throw new Exception("Duplicated ID");
         }
 
