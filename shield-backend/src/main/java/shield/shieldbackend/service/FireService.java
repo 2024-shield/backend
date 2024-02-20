@@ -24,7 +24,10 @@ public class FireService {
 
     // Fire 데이터 업데이트 또는 추가
     private void updateOrAddFire(String fileName) {
-        Fire existingFire = fireRepository.findByCamNum(fileName);
+        String[] parts = fileName.split("_");
+        String camNum = parts[0];
+
+        Fire existingFire = fireRepository.findByCamNum(camNum);
         if (existingFire != null) {
             updateFire(fileName);
         } else {
@@ -34,10 +37,11 @@ public class FireService {
 
     // Fire 데이터 업데이트
     private void updateFire(String fileName) {
-        Fire fire = fireRepository.findByCamNum(fileName);
-
         String[] parts = fileName.split("_");
         String camNum = parts[0];
+
+        Fire fire = fireRepository.findByCamNum(camNum);
+
         String fireDate = parts[1];
         String fireTime = parts[2];
         String truth = parts[3];
@@ -92,4 +96,5 @@ public class FireService {
         // truth == "TRUE"인 경우
         return new FireDto(fire.getFireTime(), fire.getFirePlace());
     }
+
 }
