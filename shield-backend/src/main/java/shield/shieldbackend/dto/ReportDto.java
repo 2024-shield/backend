@@ -20,8 +20,8 @@ public class ReportDto {
 
     // report_table
     // 발생 개요
-    private LocalDate reportFireDate; // 화재 발생 날짜
-    private LocalTime reportFireTime; // 화재 발생 시각
+    private String reportFireDate; // 화재 발생 날짜
+    private String reportFireTime; // 화재 발생 시각
     private String reportFirePlace;
     private String cause; // 원인
 

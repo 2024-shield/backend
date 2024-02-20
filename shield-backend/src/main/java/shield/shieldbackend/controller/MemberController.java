@@ -31,10 +31,8 @@ public class MemberController {
      */
     @CrossOrigin(origins = "http://localhost:5173")
     @PostMapping("/api/join")
-    public ResponseEntity<MemberJoinDto> join(@RequestBody MemberJoinDto dto, HttpServletRequest request) throws Exception {
-        // 아이디 중복 여부, 비밀번호 일치 여부 확인 후 회원가입
-        MemberJoinDto res = memberService.join(dto, request);
-
+    public ResponseEntity<MemberJoinDto> join(@RequestBody MemberJoinDto dto) throws Exception {
+        MemberJoinDto res = memberService.join(dto);
         return ResponseEntity.ok(res);
 
     }
@@ -45,22 +43,9 @@ public class MemberController {
      * 중복이 아니라면 Boolean 값인   1(true)  중복이라면   0(false)로 결과값을 반환.
      * 결과 값으로 받은 0과1로 프론트에서 중복 검사 결과 처리.
      */
-    @PostMapping("/api/check/id")
-    public ResponseEntity<Boolean> checkId(@RequestBody MemberJoinDto dto) {
-        String userId = dto.getUserId();
-
-        Boolean res = memberService.checkId(dto);
-
-        // 이전 세션 제거
-        httpSession.invalidate();
-
-        // 아이디 중복 여부를 HTTP 세션에 저장(아이디가 존재하는 경우(아이디 중복) false, 존재하지 않는 경우 true)
-        httpSession.setAttribute("idDuplicate", res);
-
-        // 디버깅용 콘솔 출력
-        System.out.println("ID 중복 여부: " + httpSession.getAttribute("idDuplicate"));
-        System.out.println("res: " + res);
-
+    @GetMapping("/api/check/id")
+    public ResponseEntity<Boolean> checkId(@RequestParam String userId) {
+        Boolean res = memberService.checkId(userId);
         return ResponseEntity.ok(res);
     }
 
@@ -70,11 +55,8 @@ public class MemberController {
      * 없으면 null,  있으면 해당 member의 id 반환.
      */
     @PostMapping("/api")
-    public ResponseEntity<Long> login(@RequestBody MemberLoginDto dto, HttpServletRequest request) {
-        Long res = memberService.login(dto, request);
-
-        // 이전 세션 제거
-        httpSession.invalidate();
+    public ResponseEntity<Long> login(@RequestBody MemberLoginDto dto) {
+        Long res = memberService.login(dto);
 
         // 로그인 성공 시 세션에 아이디 저장
         httpSession.setAttribute("MemberId", res);

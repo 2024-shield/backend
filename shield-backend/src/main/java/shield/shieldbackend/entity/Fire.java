@@ -3,8 +3,12 @@ package shield.shieldbackend.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.net.URL;
 
 @Getter
+@Setter
 @NoArgsConstructor
 @Entity
 @Table (name = "fire_table")
@@ -27,5 +31,4 @@ public class Fire {
     private String truth; // 화재 발생 여부
     @Column
     private String firePossibility; // 화재일 확률
-
 }
