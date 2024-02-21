@@ -8,11 +8,9 @@ import shield.shieldbackend.domain.Member;
 import shield.shieldbackend.dto.ReportDto;
 import shield.shieldbackend.dto.ReportFixedDto;
 import shield.shieldbackend.entity.Report;
-import shield.shieldbackend.repository.FireRepository;
 import shield.shieldbackend.repository.MemberRepository;
 import shield.shieldbackend.repository.ReportRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

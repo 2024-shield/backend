@@ -3,7 +3,6 @@ package shield.shieldbackend.service;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import shield.shieldbackend.domain.Member;
 import shield.shieldbackend.dto.MemberJoinDto;
@@ -13,7 +12,6 @@ import shield.shieldbackend.repository.MemberRepository;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor

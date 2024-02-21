@@ -6,9 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.http.HttpStatus;
 
-import shield.shieldbackend.domain.Member;
 import shield.shieldbackend.dto.MemberJoinDto;
 import shield.shieldbackend.dto.MemberLoginDto;
 import shield.shieldbackend.dto.MyPageDto;
@@ -57,9 +55,6 @@ public class MemberController {
         // 아이디 중복 여부를 HTTP 세션에 저장(아이디가 존재하는 경우(아이디 중복) false, 존재하지 않는 경우 true)
         httpSession.setAttribute("idDuplicate", res);
 
-        // 디버깅용 콘솔 출력
-        System.out.println("ID 중복 여부: " + httpSession.getAttribute("idDuplicate"));
-        System.out.println("res: " + res);
 
         return ResponseEntity.ok(res);
     }
@@ -99,25 +94,4 @@ public class MemberController {
         return ResponseEntity.ok(myPageDto);
     }
 
-    /*
-     * public ResponseEntity<Member> getUserInfo() {
-        // 세션에서 사용자 아이디 가져오기
-        Long userId = (Long) httpSession.getAttribute("userId");
-
-        if (userId != null) {
-            Member member = memberRepository.findByUserId(userId.toString());
-            if (member != null) {
-                return ResponseEntity.ok(member);
-            }
-        }
-        return ResponseEntity.notFound().build();
-    * }
-    */
-
-    /*
-     * MyPageDto userId = (MyPageDto) httpSession.getAttribute("userId");
-
-     * Member res = memberService.getUserInfo(userId);
-     * return ResponseEntity.ok(res);
-     */
 }

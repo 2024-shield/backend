@@ -16,42 +16,41 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EC2Service {
 
-    private final String downloadDirectory = "C:/Users/lolry/afterML"; // 다운로드된 파일이 저장된 디렉토리 경로
-//    private final String downloadDirectory = "/home/ec2-user/afterML"; // 다운로드된 파일이 저장된 디렉토리 경로
+    private final String downloadDirectory = "directory path where downloaded files are stored"; // 다운로드된 파일이 저장된 디렉토리 경로
 
     public String getLatestImageFileNameCam1() {
         String keyword1 = "cam1";
         String keyword2 = "TRUE";
-        // 다운로드된 파일이 저장된 디렉토리에서 특정 키워드를 포함하는 파일 목록을 가져옵니다.
+        // 다운로드된 파일이 저장된 디렉토리에서 특정 키워드를 포함하는 파일 목록을 가져옴
         File[] files = new File(downloadDirectory).listFiles((dir, name) -> name.contains(keyword1) && name.contains(keyword2));
 
         if (files == null || files.length == 0) {
             return null; // 특정 키워드를 포함하는 파일이 없을 경우 null 반환
         }
 
-        // 파일들을 업로드 시간에 따라 정렬합니다.
+        // 파일들을 업로드 시간에 따라 정렬
         List<File> fileList = Arrays.asList(files);
         fileList.sort(Comparator.comparingLong(File::lastModified).reversed());
 
-        // 가장 최신 파일의 파일명을 반환합니다.
+        // 가장 최신 파일의 파일명을 반환
         return fileList.get(0).getName();
     }
 
     public String getLatestImageFileNameCam2() {
         String keyword1 = "cam2";
         String keyword2 = "TRUE";
-        // 다운로드된 파일이 저장된 디렉토리에서 특정 키워드를 포함하는 파일 목록을 가져옵니다.
+        // 다운로드된 파일이 저장된 디렉토리에서 특정 키워드를 포함하는 파일 목록을 가져옴
         File[] files = new File(downloadDirectory).listFiles((dir, name) -> name.contains(keyword1) && name.contains(keyword2));
 
         if (files == null || files.length == 0) {
             return null; // 특정 키워드를 포함하는 파일이 없을 경우 null 반환
         }
 
-        // 파일들을 업로드 시간에 따라 정렬합니다.
+        // 파일들을 업로드 시간에 따라 정렬
         List<File> fileList = Arrays.asList(files);
         fileList.sort(Comparator.comparingLong(File::lastModified).reversed());
 
-        // 가장 최신 파일의 파일명을 반환합니다.
+        // 가장 최신 파일의 파일명을 반환
         return fileList.get(0).getName();
     }
 
