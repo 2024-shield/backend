@@ -16,7 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class EC2Service {
 
-    private final String downloadDirectory = "C:/Users/somin/afterML"; // 다운로드된 파일이 저장된 디렉토리 경로
+    private final String downloadDirectory = "C:/Users/lolry/afterML"; // 다운로드된 파일이 저장된 디렉토리 경로
 //    private final String downloadDirectory = "/home/ec2-user/afterML"; // 다운로드된 파일이 저장된 디렉토리 경로
 
     public String getLatestImageFileNameCam1() {
