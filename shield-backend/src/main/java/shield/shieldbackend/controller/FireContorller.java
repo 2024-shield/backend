@@ -23,19 +23,20 @@ public class FireContorller {
 //        return fireService.getFireData(camNum);
 //    }
 
-    // 특정 화재 정보 페이지
-    @PostMapping("api/fire-Info/{camNum}")
-    public ResponseEntity<URL> showImageAndFireData(@RequestBody String camNum) {
-        String fileName;
-        if (camNum.equals("cam1")) {
-            fileName = EC2Service.getLatestImageFileNameCam1();
-        }
-        else{
-            fileName = EC2Service.getLatestImageFileNameCam2();
-        }
+    // cam1 화재 페이지
+    @GetMapping("api/fire-Info/cam1")
+    public ResponseEntity<URL> showCam1Image() {
+//        String fileName;
+//        if (camNum.equals("cam1")) {
+//            fileName = EC2Service.getLatestImageFileNameCam1();
+//        else{
+//            fileName = EC2Service.getLatestImageFileNameCam2();
+//        }
+
+        String fileName = EC2Service.getLatestImageFileNameCam1();
 
         String bucketName = "2024-gdsc-fire";
-        String keyName = fileName;
+        String keyName = "afterML/" + fileName;
 
         Region region = Region.AP_NORTHEAST_2;
         S3Client s3 = S3Client.builder()
@@ -44,7 +45,23 @@ public class FireContorller {
         URL imageUrl = EC2Service.getURL(s3, bucketName, keyName);
         s3.close();
 
-//        urlToString = imageUrl.toString();
+        return ResponseEntity.ok(imageUrl);
+
+    }
+
+    @GetMapping("api/fire-Info/cam2")
+    public ResponseEntity<URL> showCam2Image() {
+        String fileName = EC2Service.getLatestImageFileNameCam2();
+
+        String bucketName = "2024-gdsc-fire";
+        String keyName = "afterML/" + fileName;
+
+        Region region = Region.AP_NORTHEAST_2;
+        S3Client s3 = S3Client.builder()
+                .region(region)
+                .build();
+        URL imageUrl = EC2Service.getURL(s3, bucketName, keyName);
+        s3.close();
 
         return ResponseEntity.ok(imageUrl);
 
